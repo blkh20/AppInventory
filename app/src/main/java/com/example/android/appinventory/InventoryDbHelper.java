@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class InventoryDbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "Products.db";
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
             + InventoryContract.ProductEntry.TABLE_NAME + " ("

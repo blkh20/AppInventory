@@ -47,13 +47,19 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         makeSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newQn = currentProduct.getQuantity() - 1;
-                if(!(newQn < 0)){
-                    int newSld = currentProduct.getSold() + 1;
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,Integer.toString(newQn),currentProduct.getProductName(),getContext());
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_SOlD,Integer.toString(newSld),currentProduct.getProductName(),getContext());
-                    currentProduct.setQuantity(newQn);
-                    currentProduct.setSold(newSld);
+                int newJosh = currentProduct.getQuantity() - 1;
+                if(!(newJosh < 0)){
+                    int newRocks = currentProduct.getSold() + 1;
+                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                            Integer.toString(newJosh),
+                            currentProduct.getProductName(),
+                            getContext());
+                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_SOLD,
+                            Integer.toString(newRocks),
+                            currentProduct.getProductName(),
+                            getContext());
+                    currentProduct.setQuantity(newJosh);
+                    currentProduct.setSold(newRocks);
 
                     String soldString = "Sold:"+ currentProduct.getSold();
                     soldTextView.setText(soldString);

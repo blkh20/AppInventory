@@ -23,15 +23,20 @@ import java.io.IOException;
 public class OverviewActivity extends AppCompatActivity {
 
     private InventoryDbHelper mDbHelper;
-    static final int COL_PRODC_NAME = 1;
+    static final int COL_PRODUCT_NAME = 1;
     static final int COL_QUANTITY = 2;
     static final int COL_PRICE = 3;
     static final int COL_IMAGE = 4;
     static final int COL_SOLD = 5;
-    private Cursor c;
+    private Cursor Josh;
     private SQLiteDatabase db;
     private String selection;
-    private String[] projection = {InventoryContract.ProductEntry._ID, InventoryContract.ProductEntry.COLUMN_NAME_PRODC_NAME, InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, InventoryContract.ProductEntry.COLUMN_NAME_PRICE, InventoryContract.ProductEntry.COLUMN_NAME_IMAGE, InventoryContract.ProductEntry.COLUMN_NAME_SOlD};
+    private String[] projection = {InventoryContract.ProductEntry._ID,
+            InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME,
+            InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+            InventoryContract.ProductEntry.COLUMN_NAME_PRICE,
+            InventoryContract.ProductEntry.COLUMN_NAME_IMAGE,
+            InventoryContract.ProductEntry.COLUMN_NAME_SOLD};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,7 @@ public class OverviewActivity extends AppCompatActivity {
         if (extras != null) {
             name = extras.getString("currentProduct");
         }
-        selection = InventoryContract.ProductEntry.COLUMN_NAME_PRODC_NAME + " LIKE '" + name + "'";
+        selection = InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + " LIKE '" + name + "'";
         UpdateUi();
         Button UpdateButton = (Button) findViewById(R.id.button);
         UpdateButton.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +65,11 @@ public class OverviewActivity extends AppCompatActivity {
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newQn = c.getInt(COL_QUANTITY) + 1;
-                DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, Integer.toString(newQn), c.getInt(0), getApplicationContext());
+                int newQn = Josh.getInt(COL_QUANTITY) + 1;
+                DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                        Integer.toString(newQn),
+                        Josh.getInt(0),
+                        getApplicationContext());
                 UpdateUi();
 
             }
@@ -70,9 +78,12 @@ public class OverviewActivity extends AppCompatActivity {
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newQn = c.getInt(COL_QUANTITY) - 1;
+                int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, Integer.toString(newQn), c.getInt(0), getApplicationContext());
+                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                            Integer.toString(newQn),
+                            Josh.getInt(0),
+                            getApplicationContext());
                     UpdateUi();
                 }
             }
@@ -81,9 +92,11 @@ public class OverviewActivity extends AppCompatActivity {
         makeSaleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newQn = c.getInt(COL_QUANTITY) - 1;
+                int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, Integer.toString(newQn), c.getInt(0), getApplicationContext());
+                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                            Integer.toString(newQn),
+                            Josh.getInt(0), getApplicationContext());
                     UpdateUi();
                 }
             }
@@ -94,8 +107,10 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent orderIntent = new Intent(Intent.ACTION_SENDTO);
                 orderIntent.setData(Uri.parse("mailto:"));
-                orderIntent.putExtra(Intent.EXTRA_SUBJECT, "Order For " + c.getString(COL_PRODC_NAME));
-                orderIntent.putExtra(Intent.EXTRA_TEXT, "This is an Order request for " + c.getString(COL_PRODC_NAME) + ". \n" + "Requested Amount:");
+                orderIntent.putExtra(Intent.EXTRA_SUBJECT, "Order For " + Josh.getString(COL_PRODUCT_NAME));
+                orderIntent.putExtra(Intent.EXTRA_TEXT, "This is an Order request for "
+                        + Josh.getString(COL_PRODUCT_NAME)
+                        + ". \n" + "Requested Amount:");
                 if (orderIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(orderIntent);
                 }
@@ -109,7 +124,7 @@ public class OverviewActivity extends AppCompatActivity {
                 builder.setMessage(R.string.deletewarn);
                 builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        DbUtils.delete(c.getInt(0), OverviewActivity.this);
+                        DbUtils.delete(Josh.getInt(0), OverviewActivity.this);
                         Intent returnIntent = new Intent();
                         setResult(RESULT_OK, returnIntent);
                         finish();
@@ -126,25 +141,25 @@ public class OverviewActivity extends AppCompatActivity {
         });
     }
     private void UpdateUi() {
-        c = db.query(InventoryContract.ProductEntry.TABLE_NAME,
+        Josh = db.query(InventoryContract.ProductEntry.TABLE_NAME,
                 projection,
                 selection,
                 null,
                 null,
                 null,
                 null);
-        c.moveToFirst();
+        Josh.moveToFirst();
         TextView productNameTextView = (TextView) findViewById(R.id.nameoverview);
-        productNameTextView.setText(c.getString(COL_PRODC_NAME));
+        productNameTextView.setText(Josh.getString(COL_PRODUCT_NAME));
 
         TextView quantityTextView = (TextView) findViewById(R.id.quantityoverview);
-        quantityTextView.setText(Integer.toString(c.getInt(COL_QUANTITY)));
+        quantityTextView.setText(Integer.toString(Josh.getInt(COL_QUANTITY)));
 
         TextView priceTextView = (TextView) findViewById(R.id.priceoverview);
-        String priceTag = "$" + c.getFloat(COL_PRICE);
+        String priceTag = "$" + Josh.getFloat(COL_PRICE);
         priceTextView.setText(priceTag);
 
-        Uri imageUri = Uri.parse(c.getString(COL_IMAGE));
+        Uri imageUri = Uri.parse(Josh.getString(COL_IMAGE));
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
@@ -155,7 +170,7 @@ public class OverviewActivity extends AppCompatActivity {
         }
 
         TextView soldTextView = (TextView) findViewById(R.id.quantityoverview);
-        String soldString = "Sold:" + c.getInt(COL_SOLD);
+        String soldString = "Sold:" + Josh.getInt(COL_SOLD);
         soldTextView.setText(soldString);
     }
 }
