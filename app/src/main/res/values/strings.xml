@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AppInventory</string>
+    <string name="empty_products">No products found.  Please add products by clicking button on screen.</string>
+    <string name="addButton">Add Product</string>
+    <string name="NameOfProduct">Name of Product</string>
+    <string name="PriceOfProduct">Amount in USD</string>
+    <string name="Sale">Sale Items#</string>
+    <string name="NumberSold">Number Sold</string>
+    <string name="SaleButton">Sale Confirm?</string>
+    <string name="etName">Enter Product Name</string>
+    <string name="etQuantity">Enter Product Quantity</string>
+    <string name="etPrice">Enter Product Price</string>
+    <string name="ImageAdd">Add Image of Product</string>
+    <string name="UpdateButton">Submit Product</string>
+    <string name="update">Update Order</string>
+    <string name="delete">Delete Order</string>
+    <string name="sale">Buy?</string>
+    <string name="confirm_purchase">Purchase Amount</string>
+    <string name="deletewarn">Delete Product?</string>
+    <string name="confirm">Delete?</string>
+    <string name="cancel">Delete</string>
+</resources>
