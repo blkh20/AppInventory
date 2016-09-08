@@ -78,20 +78,23 @@ public class AddActivity extends AppCompatActivity {
                 }
             }
         });
-        Button ImageAdd = (Button) findViewById(R.id.ImageAdd);
-        ImageAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent imageIntent;
+        btnAddImaget.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view)
+            {
+                Intent intent;
+
                 if (Build.VERSION.SDK_INT < 19) {
-                    imageIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
                 } else {
-                    imageIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    imageIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
                 }
-                checkPermissions();
-                imageIntent.setType("image/*");
-                startActivityForResult(Intent.createChooser(imageIntent, "Select Image"), IMAGE_REQUEST);
+
+                // Show only images, no videos or anything else
+                checkWriteToExternalPerms();
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
     }

@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.FileDescriptor;
 import java.io.IOException;
 
 /**
@@ -172,6 +176,29 @@ public class OverviewActivity extends AppCompatActivity {
         TextView soldTextView = (TextView) findViewById(R.id.quantityoverview);
         String soldString = "Sold:" + Josh.getInt(COL_SOLD);
         soldTextView.setText(soldString);
+
     }
+    ParcelFileDescriptor parcelFileDescriptor = null;
+    try {
+        parcelFileDescriptor =
+                getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
+    } catch (Exception e) {
+        Log.e(TAG, "Failed to load image.", e);
+        return null;
+    } finally {
+        try {
+            if (parcelFileDescriptor != null) {
+                parcelFileDescriptor.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Error closing ParcelFile Descriptor");
+        }
+    }
+}
 }
 
