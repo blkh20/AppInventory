@@ -27,7 +27,7 @@ public class DbUtils {
                 InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                 InventoryContract.ProductEntry.COLUMN_NAME_PRICE,
                 InventoryContract.ProductEntry.COLUMN_NAME_SOLD};
-        String sortOrder = InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + " DESC";
+        String sortOrder = InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME;
         Cursor c = db.query(InventoryContract.ProductEntry.TABLE_NAME, projection, null, null, null, null, sortOrder);
         return c;
     }

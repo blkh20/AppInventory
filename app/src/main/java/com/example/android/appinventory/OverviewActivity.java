@@ -21,6 +21,8 @@ import java.io.IOException;
  * Created by BlkH20 on 9/7/2016.
  */
 public class OverviewActivity extends AppCompatActivity {
+    private static final String LOG_TAG = "ProductDetails";
+
 
     private InventoryDbHelper mDbHelper;
     static final int COL_PRODUCT_NAME = 1;
@@ -60,7 +62,7 @@ public class OverviewActivity extends AppCompatActivity {
                 finish();
             }
         });
-        itemImage.setImageBitmap(getBitMapFromUri(imageUri));
+       // itemImage.setImageBitmap(getBitMapFromUri(imageUri));
         Button increment = (Button) findViewById(R.id.increment);
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
