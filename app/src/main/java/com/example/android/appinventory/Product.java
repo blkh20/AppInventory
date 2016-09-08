@@ -9,6 +9,7 @@ public class Product {
     private float mPrice;
     private int mSold;
 
+
     public Product(String name,int quantity,float price, int sold){
         mProductName = name;
         mQuantity = quantity;
