@@ -60,7 +60,7 @@ public class OverviewActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        itemImage.setImageBitmap(getBitMapFromUri(imageUri));
         Button increment = (Button) findViewById(R.id.increment);
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
