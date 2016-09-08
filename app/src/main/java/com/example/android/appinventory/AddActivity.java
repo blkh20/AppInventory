@@ -36,11 +36,9 @@ public class AddActivity extends AppCompatActivity {
                 int quantity = 0;
                 float price = 1;
                 boolean goodData = true;
-                String ImageofProduct = ImageOfProduct.getText().toString();
-                if (ImageOfProduct.isEmpty()){
-//                try {
-//                    String ImageOfProduct = imageUri.toString();
-//                } catch (NullPointerException e) {
+                try {
+                    String ImageOfProduct = imageUri.toString();
+                } catch (NullPointerException e) {
                     Toast badData = Toast.makeText(getApplicationContext(), "No Image for Product", Toast.LENGTH_SHORT);
                     badData.show();
                     goodData = false;
