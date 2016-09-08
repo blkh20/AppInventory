@@ -1,5 +1,6 @@
 package com.example.android.appinventory;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,69 +31,52 @@ public class AddActivity extends AppCompatActivity {
         final EditText etName = (EditText) findViewById(R.id.etName);
         final EditText etPrice = (EditText) findViewById(R.id.etPrice);
         final EditText etQuantity = (EditText) findViewById(R.id.etQuantity);
-        Button UpdateButton = (Button) findViewById(R.id.UpdateButton);
-        UpdateButton.setOnClickListener(new View.OnClickListener() {
+        Button AddImage = (Button) findViewById(R.id.ImageAdd);
+        AddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = 0;
-                float price = 1;
-                boolean goodData = true;
-                try {
-                    String ImageOfProduct = imageUri.toString();
-                } catch (NullPointerException e) {
-                    Toast badData = Toast.makeText(getApplicationContext(), "No Image for Product", Toast.LENGTH_SHORT);
-                    badData.show();
-                    goodData = false;
-                }
-                String NameOfProduct = etName.getText().toString();
-                if (NameOfProduct.isEmpty()) {
-                    Toast badData = Toast.makeText(getApplicationContext(), "No Name for Product Provided", Toast.LENGTH_SHORT);
-                    badData.show();
-                    goodData = false;
-                } else {
-                    try {
-                        quantity = Integer.parseInt(etQuantity.getText().toString());
-                        if (quantity < 0) {
-                            Toast worseData = Toast.makeText(getApplicationContext(), "Quantity must be more than 0", Toast.LENGTH_SHORT);
-                            worseData.show();
-                            goodData = false;
+                        Intent imageIntent;
+                        if (Build.VERSION.SDK_INT < 19) {
+                            imageIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        } else {
+                            imageIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                            imageIntent.addCategory(Intent.CATEGORY_OPENABLE);
                         }
-                        price = Float.parseFloat(etPrice.getText().toString());
-                        if (price < 0) {
-                            Toast worseData = Toast.makeText(getApplicationContext(), "Price must be more than 0", Toast.LENGTH_SHORT);
-                            worseData.show();
-                            goodData = false;
-                        }
-                    } catch (Exception e) {
-                        Toast wurstData = Toast.makeText(getApplicationContext(), "Check your spelling", Toast.LENGTH_SHORT);
-                        wurstData.show();
-                        goodData = false;
+                        checkPermissions();
+                        imageIntent.setType("image/*");
+                        startActivityForResult(Intent.createChooser(imageIntent, "Select Image"), IMAGE_REQUEST);
+                    }
+                });
+        Button done = (Button) findViewById(R.id.UpdateButton);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContentValues values = new ContentValues();
+
+                String insertName = etName.getText().toString();
+                String insertPrice = etPrice.getText().toString();
+                String insertQuantity = etQuantity.getText().toString();
+
+                if (!insertName.isEmpty() && !insertPrice.isEmpty() && !insertQuantity.isEmpty()){
+                    if (imageUri != null) {
+                        values.put(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME, insertName);
+                        values.put(InventoryContract.ProductEntry.COLUMN_NAME_PRICE, insertPrice);
+                        values.put(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, insertQuantity);
+                        values.put(InventoryContract.ProductEntry.COLUMN_NAME_IMAGE, imageUri.toString());
+
+                        getContentResolver().insert(InventoryContract.ProductEntry.CONTENT_URI, values);
+                        Intent returnIntent = new Intent(AddActivity.this, MainActivity.class);
+                        startActivity(returnIntent);
+
+                    } else {
+                        Toast.makeText(getBaseContext(), "Enter item image!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
-                if (goodData) {
-                    String image = imageUri.toString();
-                    int initSold = 0;
-                    DbUtils.insertNewProduct(NameOfProduct, quantity, price, image, initSold, getApplicationContext());
-                    Intent returnIntent = new Intent();
-                    setResult(RESULT_OK, returnIntent);
-                    finish();
+                else {
+                    Toast.makeText(getBaseContext(), "Enter item information!",
+                            Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-        Button ImageAdd = (Button) findViewById(R.id.ImageAdd);
-        ImageAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent imageIntent;
-                if (Build.VERSION.SDK_INT < 19) {
-                    imageIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                } else {
-                    imageIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    imageIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                }
-                checkPermissions();
-                imageIntent.setType("image/*");
-                startActivityForResult(Intent.createChooser(imageIntent, "Select Image"), IMAGE_REQUEST);
             }
         });
     }
@@ -113,12 +98,15 @@ public class AddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
+//            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+//            assert cursor != null;
+//            cursor.moveToFirst();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 ImageView imageView = (ImageView) findViewById(R.id.ImageOfProduct);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("Attaching Image", "Error attaching the image", e);
             }
         }
     }
