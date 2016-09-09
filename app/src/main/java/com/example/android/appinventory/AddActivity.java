@@ -1,5 +1,6 @@
 package com.example.android.appinventory;
 
+import android.app.ActivityManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -64,7 +65,7 @@ public class AddActivity extends AppCompatActivity {
                         values.put(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, insertQuantity);
                         values.put(InventoryContract.ProductEntry.COLUMN_NAME_IMAGE, imageUri.toString());
 
-                        getContentResolver().insert(InventoryContract.ProductEntry.CONTENT_URI, values);
+                     // getContentResolver().insert(InventoryContract.ProductEntry.CONTENT_URI, values);
                         Intent returnIntent = new Intent(AddActivity.this, MainActivity.class);
                         startActivity(returnIntent);
 
@@ -80,7 +81,15 @@ public class AddActivity extends AppCompatActivity {
             }
         });
     }
-
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if ((intent.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT) > 0) {
+            if (android.os.Build.VERSION.SDK_INT >= 19 && !isTaskRoot()) {
+                ActivityManager tasksManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                tasksManager.moveTaskToFront(getTaskId(), ActivityManager.MOVE_TASK_NO_USER_ACTION);
+            }
+        }
+    }//found at stackoverflow
     private void checkPermissions() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
