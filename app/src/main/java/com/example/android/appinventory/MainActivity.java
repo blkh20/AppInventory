@@ -1,9 +1,11 @@
 package com.example.android.appinventory;
 
 import android.app.LoaderManager;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.UserDictionary;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Get the contentResolver
+        ContentResolver resolver = getContentResolver();
+        //get a cursor
+        Cursor cursor = resolver.query(UserDictionary.Words.CONTENT_URI,
+                                                null, null, null, null);
+        try{
+            mProductsListView("Products contain " + cursor.getCount() + "products\n");
+            mProductsListView("COLUMNS: " +words._ID + "-" + Words.FREQUENCY + "-" + Words.WORD );
+            //Get the index
+            int idColumn = cursor.getColumnIndex(UserDictionary.Words._ID);
+            int frequencyColumn = cursor.getColumnIndex(UserDictionary.Words.FREQUENCY);
+            int wordColumn = cursor.getColumnIndex(UserDictionary.Words.WORD);
+            //Iterate thru returned rows
+            while(cursor.moveToNext()) {
+                //Use the index to extract
+                int id = cursor.getInt(idColumn);
+                int frequency = cursor.getInt(frequencyColumn);
+                String word = cursor.getString(wordColumn);
+            }
+        }finally{
+            //Always close your cursor
+            cursor.close();
+        }
         mProductsListView = (ListView) findViewById(R.id.list);
         mAdapter = new ProductAdapter(this, new ArrayList<Product>());
 
