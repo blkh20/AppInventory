@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.UserDictionary;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +20,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>> {
     // For the SimpleCursorAdapter to match the UserDictionary columns to layout items.
     private static final String[] COLUMNS_TO_BE_BOUND  = new String[] {
-            Products.Words.COLUMN_NAME_PRODUCT_NAME,
-            Products.Words.COLUMN_NAME_QUANTITY
+            Products.COLUMN_NAME_PRODUCT_NAME,
+            Products.COLUMN_NAME_QUANTITY
     };
 
     private static final int[] LAYOUT_ITEMS_TO_FILL = new int[] {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //Get the contentResolver
         ContentResolver resolver = getContentResolver();
         //get a cursor
-        Cursor cursor = resolver.query(Products.Words.CONTENT_URI,
+        Cursor cursor = resolver.query(InventoryContract.ProductEntry.CONTENT_URI,
                                                 null, null, null, null);
         // Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
@@ -52,14 +53,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 0);
 
         // Attach the adapter to the ListView.
-        dictListView.setAdapter(adapter);
+        mProductsListView.setAdapter(adapter);
         try{
             mProductsListView("Products contain " + cursor.getCount() + "products\n");
-            mProductsListView("COLUMNS: " +Products._ID + "-" + UserDictionary.Words.FREQUENCY + "-" + UserDictionary.Words.WORD );
+            mProductsListView("COLUMNS: " +InventoryContract.ProductEntry._ID
+                    + "-"
+                    + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME
+                    + "-"
+                    + InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY );
             //Get the index
-            int id = cursor.getColumnIndex(Products._ID);
-            String productName = cursor.getColumnIndex(Products.COLUMN_NAME_PRODUCT_NAME);
-            String quantity = cursor.getColumnIndex(Products.COLUMN_NAME_QUANTITY);
+            int id = cursor.getColumnIndex(InventoryContract.ProductEntry._ID);
+            String productName = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME);
+            String quantity = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
             //Iterate thru returned rows
             while(cursor.moveToNext()) {
                 //Use the index to extract
