@@ -20,14 +20,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>> {
     // For the SimpleCursorAdapter to match the UserDictionary columns to layout items.
     private static final String[] COLUMNS_TO_BE_BOUND  = new String[] {
-            Products.COLUMN_NAME_PRODUCT_NAME,
-            Products.COLUMN_NAME_QUANTITY
-    };
-
+            InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME,
+            InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY    };
     private static final int[] LAYOUT_ITEMS_TO_FILL = new int[] {
             android.R.id.NameOfProduct,
-            android.R.id.PriceOfProduct
-    };
+            android.R.id.PriceOfProduct    };
     private TextView mEmptyStateTextView;
     private ListView mProductsListView;
     private ProductAdapter mAdapter;
@@ -56,10 +53,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mProductsListView.setAdapter(adapter);
         try{
             mProductsListView("Products contain " + cursor.getCount() + "products\n");
-            mProductsListView("COLUMNS: " +InventoryContract.ProductEntry._ID
-                    + "-"
-                    + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME
-                    + "-"
+            mProductsListView("COLUMNS: " +InventoryContract.ProductEntry._ID + "-" + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + "-"
                     + InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY );
             //Get the index
             int id = cursor.getColumnIndex(InventoryContract.ProductEntry._ID);
@@ -68,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             //Iterate thru returned rows
             while(cursor.moveToNext()) {
                 //Use the index to extract
-                int id = cursor.getInt(_id);
-                String productName = cursor.getString(COLUMN_NAME_PRODUCT_NAME);
-                String quantity = cursor.getString(COLUMN_NAME_QUANTITY);
+                id = cursor.getInt(_ID);
+                productName = cursor.getString(COLUMN_NAME_PRODUCT_NAME);
+                quantity = cursor.getString(COLUMN_NAME_QUANTITY);
             }
         }finally{
             //Always close your cursor
