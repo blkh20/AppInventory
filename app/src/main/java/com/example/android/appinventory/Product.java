@@ -10,7 +10,7 @@ public class Product {
     private int mSold;
 
 
-    public Product(String name,int quantity,float price, int sold){
+    public Product(String name,int quantity, float price, int sold){
         mProductName = name;
         mQuantity = quantity;
         mPrice = price;

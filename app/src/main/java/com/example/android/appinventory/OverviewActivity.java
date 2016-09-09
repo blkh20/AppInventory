@@ -68,11 +68,11 @@ public class OverviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) + 1;
-                DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                        DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                         Integer.toString(newQn),
                         Josh.getInt(0),
                         getApplicationContext());
-                UpdateUi();
+                        UpdateUi();
 
             }
         });
@@ -82,11 +82,11 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                            DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newQn),
                             Josh.getInt(0),
                             getApplicationContext());
-                    UpdateUi();
+                            UpdateUi();
                 }
             }
         });
@@ -96,10 +96,10 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                            DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newQn),
                             Josh.getInt(0), getApplicationContext());
-                    UpdateUi();
+                            UpdateUi();
                 }
             }
         });
