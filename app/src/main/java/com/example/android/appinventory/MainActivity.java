@@ -19,12 +19,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>> {
     // For the SimpleCursorAdapter to match the UserDictionary columns to layout items.
-    private static final String[] COLUMNS_TO_BE_BOUND  = new String[] {
+    private static final String[] COLUMNS_TO_BE_BOUND = new String[]{
             InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME,
-            InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY    };
-    private static final int[] LAYOUT_ITEMS_TO_FILL = new int[] {
+            InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY};
+    private static final int[] LAYOUT_ITEMS_TO_FILL = new int[]{
             android.R.id.NameOfProduct,
-            android.R.id.PriceOfProduct    };
+            android.R.id.PriceOfProduct};
     private TextView mEmptyStateTextView;
     private ListView mProductsListView;
     private ProductAdapter mAdapter;
@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Get the contentResolver
+//Get the contentResolver
         ContentResolver resolver = getContentResolver();
-        //get a cursor
+//get a cursor
         Cursor cursor = resolver.query(InventoryContract.ProductEntry.CONTENT_URI,
-                                                null, null, null, null);
-        // Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
+                null, null, null, null);
+// Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                 android.R.layout.two_line_list_item,
                 cursor,
@@ -49,39 +49,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 LAYOUT_ITEMS_TO_FILL,
                 0);
 
-        // Attach the adapter to the ListView.
+// Attach the adapter to the ListView.
         mProductsListView.setAdapter(adapter);
-        try{
+        try {
             mProductsListView("Products contain " + cursor.getCount() + "products\n");
-            mProductsListView("COLUMNS: " +InventoryContract.ProductEntry._ID + "-" + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + "-"
-                    + InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY );
-            //Get the index
+            mProductsListView("COLUMNS: " + InventoryContract.ProductEntry._ID + "-" + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + "-"
+                    + InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
+//Get the index
             int id = cursor.getColumnIndex(InventoryContract.ProductEntry._ID);
             String productName = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME);
             String quantity = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
-            //Iterate thru returned rows
-            while(cursor.moveToNext()) {
-                //Use the index to extract
+//Iterate thru returned rows
+            while (cursor.moveToNext()) {
+//Use the index to extract
                 id = cursor.getInt(_ID);
                 productName = cursor.getString(COLUMN_NAME_PRODUCT_NAME);
                 quantity = cursor.getString(COLUMN_NAME_QUANTITY);
             }
-        }finally{
-            //Always close your cursor
+        } finally {
+//Always close your cursor
             cursor.close();
         }
         mProductsListView = (ListView) findViewById(R.id.list);
         mAdapter = new ProductAdapter(this, new ArrayList<Product>());
-
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         mProductsListView.setEmptyView(mEmptyStateTextView);
-
         mProductsListView.setAdapter(mAdapter);
-
-
         loaderManager = getLoaderManager();
         loaderManager.initLoader(PRODUCT_LOADER_ID, null, this);
-
         mProductsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -101,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } catch (RuntimeException e) {
             Log.e("MainActivity", "Error reading from Database");
         }
-
         return new ProductLoader(this, c);
     }
 
