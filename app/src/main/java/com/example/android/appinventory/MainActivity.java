@@ -36,40 +36,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//Get the contentResolver
+        //Get the contentResolver
         ContentResolver resolver = getContentResolver();
-//get a cursor
+        //get a cursor
         Cursor cursor = resolver.query(InventoryContract.ProductEntry.CONTENT_URI,
                 null, null, null, null);
-// Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
+        // Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                 android.R.layout.two_line_list_item,
                 cursor,
                 COLUMNS_TO_BE_BOUND,
                 LAYOUT_ITEMS_TO_FILL,
                 0);
-
-// Attach the adapter to the ListView.
+        // Attach the adapter to the ListView.
         mProductsListView.setAdapter(adapter);
-        try {
-            mProductsListView("Products contain " + cursor.getCount() + "products\n");
-            mProductsListView("COLUMNS: " + InventoryContract.ProductEntry._ID + "-" + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + "-"
-                    + InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
-//Get the index
-            int id = cursor.getColumnIndex(InventoryContract.ProductEntry._ID);
-            String productName = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME);
-            String quantity = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
-//Iterate thru returned rows
-            while (cursor.moveToNext()) {
-//Use the index to extract
-                id = cursor.getInt(_ID);
-                productName = cursor.getString(COLUMN_NAME_PRODUCT_NAME);
-                quantity = cursor.getString(COLUMN_NAME_QUANTITY);
-            }
-        } finally {
-//Always close your cursor
-            cursor.close();
-        }
         mProductsListView = (ListView) findViewById(R.id.list);
         mAdapter = new ProductAdapter(this, new ArrayList<Product>());
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
@@ -86,6 +66,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivityForResult(productIntent, REQUEST_CODE);
             }
         });
+        try {
+            mProductsListView("Products contain " + cursor.getCount() + "products\n");
+            mProductsListView("COLUMNS: " + InventoryContract.ProductEntry._ID + "-" + InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME + "-"
+                    + InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
+            //Get the index
+            int id = cursor.getColumnIndex(InventoryContract.ProductEntry._ID);
+            String productName = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME);
+            String quantity = cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY);
+            //Iterate thru returned rows
+            while (cursor.moveToNext()) {
+            //Use the index to extract
+                id = cursor.getInt(_ID);
+                productName = cursor.getString(COLUMN_NAME_PRODUCT_NAME);
+                quantity = cursor.getString(COLUMN_NAME_QUANTITY);
+            }
+        } finally {
+        //Always close your cursor
+            cursor.close();
+        }
     }
 
     @Override
