@@ -2,11 +2,8 @@ package com.example.android.appinventory;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
-    public static final String LOG_TAG = InventoryDbHelper.class.getSimpleName();
+    //public static final String LOG_TAG = InventoryDbHelper.class.getSimpleName();
     // For the SimpleCursorAdapter to match the UserDictionary columns to layout items.
     private static final String[] COLUMNS_TO_BE_BOUND = new String[]{
             InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME,
@@ -27,7 +24,7 @@ public class MainActivity extends AppCompatActivity{
     private ListView mProductsListView;
     private ProductAdapter mAdapter;
     private android.app.LoaderManager loaderManager;
-    private static final int PRODUCT_LOADER_ID = 1;
+    //private static final int PRODUCT_LOADER_ID = 1;
     private int REQUEST_CODE = 0;
     private InventoryDbHelper mDbHelper;
 
@@ -38,8 +35,8 @@ public class MainActivity extends AppCompatActivity{
         //Get the contentResolver
         ContentResolver resolver = getContentResolver();
         //get a cursor
-        Cursor cursor = resolver.query(InventoryContract.ProductEntry.CONTENT_URI,
-                null, null, null, null);
+//        Cursor cursor = resolver.query(InventoryContract.ProductEntry.CONTENT_URI,
+//                null, null, null, null);
         // Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
 //        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
 //                android.R.layout.two_line_list_item,
@@ -120,11 +117,11 @@ public class MainActivity extends AppCompatActivity{
 //        super.onResume();
 //        loaderManager.restartLoader(0, null, this);
 //    }
-    public void clearTable() {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.delete(InventoryContract.ProductEntry.TABLE_NAME, null, null);
-        Log.d(LOG_TAG, "Clear Table Method");
-    }
+//    public void clearTable() {
+//        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//        db.delete(InventoryContract.ProductEntry.TABLE_NAME, null, null);
+//        Log.d(LOG_TAG, "Clear Table Method");
+//    }
 //    public void update() {
 //        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 //        db.update(SQLiteDatabase database, int arg1, int arg2)
