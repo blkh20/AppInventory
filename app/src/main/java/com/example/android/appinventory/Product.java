@@ -1,17 +1,15 @@
 package com.example.android.appinventory;
 
-/**
- * Created by BlkH20 on 9/8/2016.
- */
 public class Product {
     private String mProductName;
     private int mQuantity;
     private float mPrice;
     private int mSold;
-    public Product(String name,int quantity, float price, int sold){
-        mProductName = name;
-        mQuantity = quantity;
-        mPrice = price;
+    public Product(String ProductName,int Quantity, float Price, int sold){
+        mProductName = ProductName;
+        mQuantity = Quantity;
+        mPrice = Price;
+        mSold = sold;
     }
     public String getProductName() {
         return mProductName;

@@ -12,11 +12,11 @@ public class DbUtils {
         mDbHelper = new InventoryDbHelper(context);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME, productName);
-        values.put(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, quantity);
-        values.put(InventoryContract.ProductEntry.COLUMN_NAME_PRICE, price);
-        values.put(InventoryContract.ProductEntry.COLUMN_NAME_IMAGE, image);
-        values.put(InventoryContract.ProductEntry.COLUMN_NAME_SOLD, sold);
+        values.put(InventoryContract.ProductEntry.COLUMN_NAME_PRODUCT_NAME, " productName ");
+        values.put(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, " quantity ");
+        values.put(InventoryContract.ProductEntry.COLUMN_NAME_PRICE, " price ");
+        values.put(InventoryContract.ProductEntry.COLUMN_NAME_IMAGE, " image ");
+        values.put(InventoryContract.ProductEntry.COLUMN_NAME_SOLD, " sold ");
         db.insert(InventoryContract.ProductEntry.TABLE_NAME, null, values);
     }
 
@@ -58,7 +58,6 @@ public class DbUtils {
         mDbHelper = new InventoryDbHelper(context);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         String selection = InventoryContract.ProductEntry._ID + " LIKE ?";
-        // ArrayList<String> args = new ArrayList<String>();
         String[] selectionArgs = {"" + rowId};
         db.delete(InventoryContract.ProductEntry.TABLE_NAME, selection, selectionArgs);
         db.close();
