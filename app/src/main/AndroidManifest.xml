@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name=".InventoryContract"
+            android:authorities="com.example.android.appinventory.InventoryContract"
+            android:exported="true"
+            android:multiprocess="true" >
+        </provider>
         <activity android:name=".OverviewActivity" />
         <activity android:name=".AddActivity" />
     </application>

@@ -107,9 +107,6 @@ public class AddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-//            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-//            assert cursor != null;
-//            cursor.moveToFirst();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 ImageView imageView = (ImageView) findViewById(R.id.ImageOfProduct);

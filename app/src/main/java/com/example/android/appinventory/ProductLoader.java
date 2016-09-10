@@ -14,9 +14,9 @@ public class ProductLoader extends AsyncTaskLoader {
     static final int COL_PRODUCT_NAME = 0;
     static final int COL_QUANTITY = 1;
     static final int COL_PRICE = 2;
-    static final int COL_SOLD=3;
+    static final int COL_SOLD = 3;
 
-    public ProductLoader(Context context, Cursor c){
+    public ProductLoader(Context context, Cursor c) {
         super(context);
         mProductData = c;
     }
@@ -31,7 +31,7 @@ public class ProductLoader extends AsyncTaskLoader {
 
         ArrayList<Product> products = new ArrayList<>();
 
-        if(mProductData == null || mProductData.getCount() == 0) {
+        if (mProductData == null || mProductData.getCount() == 0) {
             return null;
         }
 
@@ -42,9 +42,8 @@ public class ProductLoader extends AsyncTaskLoader {
                             mProductData.getFloat(COL_PRICE),
                             mProductData.getInt(COL_SOLD))
             );
-            Log.e("test",products.toString());
+            Log.e("test", products.toString());
         }
-
         return products;
     }
 }

@@ -22,8 +22,6 @@ import java.io.IOException;
  */
 public class OverviewActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ProductDetails";
-
-
     private InventoryDbHelper mDbHelper;
     static final int COL_PRODUCT_NAME = 1;
     static final int COL_QUANTITY = 2;
@@ -62,17 +60,16 @@ public class OverviewActivity extends AppCompatActivity {
                 finish();
             }
         });
-       // itemImage.setImageBitmap(getBitMapFromUri(imageUri));
         Button increment = (Button) findViewById(R.id.increment);
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) + 1;
-                        DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                         Integer.toString(newQn),
                         Josh.getInt(0),
                         getApplicationContext());
-                        UpdateUi();
+                UpdateUi();
 
             }
         });
@@ -82,11 +79,11 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                            DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newQn),
                             Josh.getInt(0),
                             getApplicationContext());
-                            UpdateUi();
+                    UpdateUi();
                 }
             }
         });
@@ -96,10 +93,10 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                            DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newQn),
                             Josh.getInt(0), getApplicationContext());
-                            UpdateUi();
+                    UpdateUi();
                 }
             }
         });
@@ -142,6 +139,7 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
     }
+
     private void UpdateUi() {
         Josh = db.query(InventoryContract.ProductEntry.TABLE_NAME,
                 projection,
@@ -153,29 +151,22 @@ public class OverviewActivity extends AppCompatActivity {
         Josh.moveToFirst();
         TextView productNameTextView = (TextView) findViewById(R.id.nameoverview);
         productNameTextView.setText(Josh.getString(COL_PRODUCT_NAME));
-
         TextView quantityTextView = (TextView) findViewById(R.id.quantityoverview);
         quantityTextView.setText(Integer.toString(Josh.getInt(COL_QUANTITY)));
-
         TextView priceTextView = (TextView) findViewById(R.id.priceoverview);
         String priceTag = "$" + Josh.getFloat(COL_PRICE);
         priceTextView.setText(priceTag);
-
         Uri imageUri = Uri.parse(Josh.getString(COL_IMAGE));
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-
             ImageView imageView = (ImageView) findViewById(R.id.imageOverview);
             imageView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         TextView soldTextView = (TextView) findViewById(R.id.quantityoverview);
         String soldString = "Sold:" + Josh.getInt(COL_SOLD);
         soldTextView.setText(soldString);
-
     }
-
 }
 

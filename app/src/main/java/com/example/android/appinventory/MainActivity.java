@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    private void mProductsListView(String s) {
+
+    }
+
     @Override
     public android.content.Loader<List<Product>> onCreateLoader(int id, Bundle args) {
         Cursor c = null;
