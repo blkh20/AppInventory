@@ -50,11 +50,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
                 int newJosh = currentProduct.getQuantity() - 1;
                 if(!(newJosh < 0)){
                     int newRocks = currentProduct.getSold() + 1;
-                    Utility.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                    Utility.verifyStoragePermissions(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newJosh),
                             currentProduct.getProductName(),
                             getContext());
-                    Utility.Update(InventoryContract.ProductEntry.COLUMN_NAME_SOLD,
+                    Utility.verifyStoragePermissions(InventoryContract.ProductEntry.COLUMN_NAME_SOLD,
                             Integer.toString(newRocks),
                             currentProduct.getProductName(),
                             getContext());

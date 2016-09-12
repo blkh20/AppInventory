@@ -79,7 +79,7 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                    Utility.verifyStoragePermissions(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newQn),
                             Josh.getInt(0),
                             getApplicationContext());
@@ -93,7 +93,7 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int newQn = Josh.getInt(COL_QUANTITY) - 1;
                 if (!(newQn < 0)) {
-                    DbUtils.Update(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
+                    Utility.verifyStoragePermissions(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
                             Integer.toString(newQn),
                             Josh.getInt(0), getApplicationContext());
                     UpdateUi();
