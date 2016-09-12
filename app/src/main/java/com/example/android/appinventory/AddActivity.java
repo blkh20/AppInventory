@@ -65,7 +65,6 @@ public class AddActivity extends AppCompatActivity {
                         values.put(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY, insertQuantity);
                         values.put(InventoryContract.ProductEntry.COLUMN_NAME_IMAGE, imageUri.toString());
 
-                     // getContentResolver().insert(InventoryContract.ProductEntry.CONTENT_URI, values);
                         Intent returnIntent = new Intent(AddActivity.this, MainActivity.class);
                         startActivity(returnIntent);
 

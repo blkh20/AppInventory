@@ -2,7 +2,6 @@ package com.example.android.appinventory;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
-import android.net.Uri;
 import android.provider.BaseColumns;
 
 
@@ -14,13 +13,8 @@ public abstract class InventoryContract extends ContentProvider {
        public static abstract class ProductEntry implements BaseColumns {
         //Authority of the content provider
         public static final String CONTENT_AUTHORITY = "com.example.android.appinventory";
-        //Added schema of the content provider
-        public static final Uri BASE_CONTENT_URI = Uri.parse("content://"
-                + CONTENT_AUTHORITY);
         //Path of the content provider
         public static final String PATH = "items";
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH).build();
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/"
                         + CONTENT_AUTHORITY + "/"

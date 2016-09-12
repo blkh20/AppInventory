@@ -7,17 +7,13 @@ import android.util.Log;
 
 public class InventoryDbHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = InventoryDbHelper.class.getSimpleName();
-
     private static final int DATABASE_VERSION = 1;
-
     static final String DATABASE_NAME = "product.db";
-
     public InventoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
         Log.d(LOG_TAG, "onCreate method called");
         String SQL_CREATE_TABLE = " CREATE TABLE "
                 + InventoryContract.ProductEntry.TABLE_NAME + InventoryContract.ProductEntry.TABLE_NAME + " ("
