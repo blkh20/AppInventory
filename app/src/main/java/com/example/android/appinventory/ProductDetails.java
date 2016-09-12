@@ -26,15 +26,11 @@ import com.example.android.appinventory.Data.ProductDbHandler;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
-/**
- * Created by BlkH20 on 9/12/2016.
- */
 public class ProductDetails extends AppCompatActivity {
     private static final String TAG = "ProductDetails";
     ProductValidator pv = new ProductValidator();
     ProductDbHandler db = new ProductDbHandler(this);
     Product pc;
-
     @Override
     public void setActionBar(Toolbar toolbar) {
         super.setActionBar(toolbar);
@@ -46,7 +42,6 @@ public class ProductDetails extends AppCompatActivity {
         actionBar.setTitle(R.string.product_detail_title);
         actionBar.show();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

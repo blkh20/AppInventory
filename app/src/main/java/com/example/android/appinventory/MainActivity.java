@@ -25,13 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private ProductAdapter adapter;
     private ProductDbHandler db = new ProductDbHandler(this);
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -60,30 +58,23 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button addItemBtn = (Button) findViewById(R.id.add_item_btn);
-
         listView = (ListView) findViewById(R.id.product_list);
         adapter = new ProductAdapter(MainActivity.this, productInventory);
         listView.setAdapter(adapter);
-
         if (db.getProductsCount() == 0) {
             textView = (TextView) findViewById(R.id.no_product);
             textView.setVisibility(View.VISIBLE);
         } else {
             listView.setVisibility(View.VISIBLE);
-
             productInventory.addAll(db.getAllProducts());
             adapter.notifyDataSetChanged();
         }
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ProductDetails.class);
@@ -91,24 +82,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
-
-
-
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AddProduct.class);
-
                 startActivityForResult(i, 0);
-
             }
         });
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(listView.getVisibility() == View.GONE)
         {
             listView.setVisibility(View.VISIBLE);
@@ -118,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         productInventory.clear();
         productInventory.addAll(db.getAllProducts());
         adapter.notifyDataSetChanged();
-
         if(productInventory != null)
         {
             if(productInventory.size() == 0)
@@ -135,5 +118,4 @@ public class MainActivity extends AppCompatActivity {
             listView.setVisibility(View.GONE);
         }
     }
-
 }

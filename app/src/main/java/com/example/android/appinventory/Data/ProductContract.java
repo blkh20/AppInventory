@@ -5,14 +5,9 @@ import android.provider.BaseColumns;
 
 
 public class ProductContract {
-
-    // Database Version
     public static final int DATABASE_VERSION = 1;
-
     public class ProductEntry implements BaseColumns {
-        // Table name
         public static final String TABLE_NAME = "inventoryInfo";
-        // Table Columns names
         public static final String COLUMN_PRODUCT_ID = "productId";
         public static final String COLUMN_PRODUCT_NAME = "productName";
         public static final String COLUMN_PRODUCT_IMAGE = "productPic";

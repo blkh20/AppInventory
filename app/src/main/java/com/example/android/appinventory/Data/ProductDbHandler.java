@@ -36,7 +36,6 @@ public class ProductDbHandler extends SQLiteOpenHelper {
                 + ProductContract.ProductEntry.COLUMN_SUPPLIER_CONTACT + TEXT_TYPE + ")";
         db.execSQL(CREATE_TABLE);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
@@ -44,12 +43,6 @@ public class ProductDbHandler extends SQLiteOpenHelper {
         // Creating tables again
         onCreate(db);
     }
-
-    /**
-     * CRUDD Operations (Create, Read, Update, Delete, DeleteDatabase)
-     */
-
-    // Adding new product
     public void addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -60,12 +53,9 @@ public class ProductDbHandler extends SQLiteOpenHelper {
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_SALES, product.getSales());
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_CONTACT, product.getSupplier());
 
-        // Inserting Row
         db.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
         db.close(); // Closing database connection
     }
-
-    // Getting one product
     public Cursor getProduct(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(ProductContract.ProductEntry.TABLE_NAME,
@@ -84,8 +74,6 @@ public class ProductDbHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
         return cursor;
     }
-
-    // Getting All Products
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<Product>();
         // Select All Query
@@ -110,8 +98,6 @@ public class ProductDbHandler extends SQLiteOpenHelper {
 
         return productList;
     }
-
-    // Getting products Count
     public int getProductsCount() {
         String countQuery = "SELECT * FROM " + ProductContract.ProductEntry.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -121,8 +107,6 @@ public class ProductDbHandler extends SQLiteOpenHelper {
         // return count
         return count;
     }
-
-    // Updating a single product
     public int updateProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -136,24 +120,18 @@ public class ProductDbHandler extends SQLiteOpenHelper {
                 ProductContract.ProductEntry.COLUMN_PRODUCT_ID + " = ?",
                 new String[]{String.valueOf(product.getId())});
     }
-
-    // Deleting a product
     public void deleteProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(ProductContract.ProductEntry.TABLE_NAME, ProductContract.ProductEntry.COLUMN_PRODUCT_ID + " = ?",
                 new String[]{String.valueOf(product.getId())});
         db.close();
     }
-
-    //Delete all products
     public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(ProductContract.ProductEntry.TABLE_NAME, null, null);
         db.execSQL("delete  from " + ProductContract.ProductEntry.TABLE_NAME);
         db.close();
     }
-
-    //Delete the database file
     public void deleteDatabase() {
 
         mContext.deleteDatabase(DATABASE_NAME);

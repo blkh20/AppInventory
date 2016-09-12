@@ -29,14 +29,11 @@ public class AddProduct extends AppCompatActivity {
     ProductDbHandler db = new ProductDbHandler(this);
     Uri uri;
     TextView errorMsg;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Button btnAddImage = (Button) findViewById(R.id.add_image);
         Button btnSaveProduct = (Button) findViewById(R.id.save_prod);
         errorMsg = (TextView) findViewById(R.id.add_prod_err_msg);
@@ -49,8 +46,6 @@ public class AddProduct extends AppCompatActivity {
         btnSaveProduct.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-
-
                 if (validateField(editProdName, editProdPrice, editProdQty, editEmail)) {
                     if (uri == null) {
                         errorMsg.setText("Image required!!");
@@ -79,7 +74,6 @@ public class AddProduct extends AppCompatActivity {
             }
 
         });
-
         btnAddImage.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -131,7 +125,7 @@ public class AddProduct extends AppCompatActivity {
             }
         }
         {
-            errorMsg.setText("Missing field detected.");
+            errorMsg.setText("Missing field");
             return false;
         }
 
@@ -142,19 +136,14 @@ public class AddProduct extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
             uri = data.getData();
             String[] projection = {MediaStore.Images.Media.DATA};
-
             Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
             assert cursor != null;
             cursor.moveToFirst();
-
             cursor.close();
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-
                 ImageView imageView = (ImageView) findViewById(R.id.image_view);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -162,7 +151,6 @@ public class AddProduct extends AppCompatActivity {
             }
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
