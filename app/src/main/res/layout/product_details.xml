@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_product_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:padding="@dimen/activity_default_padding"
+    tools:context="com.example.android.appinventory.ProductDetails"
+    android:weightSum="1"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/activity_default_padding"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="center"
+            android:id="@+id/detail_image_view" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:gravity="center_vertical"
+                android:text="@string/product_name"
+                android:id="@+id/detail_prod_name" />
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:gravity="center_vertical"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:id="@+id/detail_prod_name_output"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:gravity="center_vertical"
+                android:text="@string/product_price"
+                android:id="@+id/detail_prod_price" />
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:id="@+id/detail_prod_price_output"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:text="@string/product_stock"
+                android:gravity="center_vertical"
+                android:id="@+id/detail_prod_qty" />
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:gravity="center_vertical"
+                android:id="@+id/detail_prod_qty_output" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:text="@string/item_sold"
+                android:gravity="center_vertical"
+                android:id="@+id/detail_prod_sold" />
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:gravity="center_vertical"
+                android:id="@+id/textViewProdSold2" />
+        </LinearLayout>
+
+
+        <TextView
+            style="@style/add_product_text_view"
+            android:text="Modified product Quantity"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/detail_mod_qty"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/detail_adj_qty_1"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:visibility="gone"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/up"
+                android:text="UP" />
+            <EditText
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_edit_qty"
+                android:maxLines="1"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Down"
+                android:id="@+id/down"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wrong format"
+            android:id="@+id/detail_edit_qty_error"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/detail_adj_qty_2"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:id="@+id/done"
+                android:layout_gravity="center_horizontal"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/cancel"
+                android:layout_marginLeft="90dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Order"
+                android:id="@+id/detail_btn_order"
+                />
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:id="@+id/detail_btn_delete_prod"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Edit Qty"
+                android:id="@+id/detail_btn_adjust_qty"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

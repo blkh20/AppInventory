@@ -2,4 +2,20 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_default_padding">8dp</dimen>
+
+    <!-- Activity Main dimensions -->
+    <dimen name="act_main_add_height">48dp</dimen>
+
+    <!-- Height of each list item -->
+    <dimen name="list_item_height">160dp</dimen>
+
+    <!-- Dimensions of list item thumbnails and buttons -->
+    <dimen name="thumb_height">100dp</dimen>
+    <dimen name="thumb_width">100dp</dimen>
+
+    <!-- Dimensions of list item text -->
+    <dimen name="list_text_view">0dp</dimen>
+
+
 </resources>

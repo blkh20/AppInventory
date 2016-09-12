@@ -1,55 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_product"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical">
+    android:padding="@dimen/activity_default_padding"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.example.android.appinventory.AddProduct">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.example.android.appinventory.AddActivity">
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ImageOfProduct"
-            android:layout_width="375dp"
-            android:layout_height="275dp" />
 
-        <EditText
-            android:id="@+id/etName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/etName"
-            android:maxLines="1" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/etQuantity"
+            <TextView
+                style="@style/add_product_text_view"
+                android:text="@string/product_name" />
+
+            <EditText
+                android:id="@+id/edit_item_name"
+                style="@style/add_product_edit_text"
+                android:hint="@string/add_product_name_hint" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/etQuantity"
-            android:inputType="number"
-            android:maxLines="1" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/etPrice"
+            <TextView
+                style="@style/add_product_text_view"
+                android:text="@string/product_price" />
+
+            <EditText
+                android:id="@+id/edit_item_price"
+                style="@style/add_product_edit_text"
+                android:hint="@string/add_product_price_hint" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/etPrice"
-            android:inputType="number"
-            android:maxLines="1" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/ImageAdd"
+            <TextView
+                style="@style/add_product_text_view"
+                android:text="@string/product_stock" />
+
+            <EditText
+                android:id="@+id/edit_stock"
+                style="@style/add_product_edit_text"
+                android:hint="@string/add_product_quantity" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ImageAdd" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/UpdateButton"
+            <TextView
+                style="@style/add_product_text_view"
+                android:text="@string/sup_email" />
+
+            <EditText
+                android:id="@+id/edit_sup_contact"
+                style="@style/add_product_edit_text"
+                android:hint="@string/add_supplier_contact" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/UpdateButton" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/add_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Image" />
+
+            <ImageView
+                android:id="@+id/image_view"
+                style="@style/add_product_image_view" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/save_prod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save product" />
+
+            <TextView
+                style="@style/add_product_text_view"
+                android:id="@+id/add_prod_err_msg" />
+
+        </LinearLayout>
+
     </LinearLayout>
-</RelativeLayout>
+
+</ScrollView>

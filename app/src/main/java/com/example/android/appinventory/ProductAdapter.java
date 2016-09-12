@@ -1,6 +1,7 @@
 package com.example.android.appinventory;
 
-import android.content.Context;
+import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,67 +9,70 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.android.appinventory.Data.ProductDbHandler;
+import com.example.android.product_inventory.R;
+
 import java.util.ArrayList;
 
-/**
- * Created by BlkH20 on 9/8/2016.
- */
 public class ProductAdapter extends ArrayAdapter<Product> {
 
-    public ProductAdapter(Context context, ArrayList<Product> products){
-        super(context,0,products);
+    ArrayList<Product> Product = new ArrayList<>();
+
+    public ProductAdapter(Activity context, ArrayList<Product> products) {
+        super(context, 0, products);
     }
+
+    ProductDbHandler db = new ProductDbHandler(getContext());
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View listItemView = convertView;
-        if(listItemView == null){
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_products,parent,false);
+
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.list_item_products, parent, false);
         }
 
         final Product currentProduct = getItem(position);
 
-        TextView productNameTextView = (TextView) listItemView.findViewById(R.id.NameOfProduct);
-        productNameTextView.setText(currentProduct.getProductName());
+        Button btnSell = (Button) listItemView.findViewById(R.id.list_sell_btn);
 
-        final TextView quantityTextView = (TextView) listItemView.findViewById(R.id.Sale);
-        quantityTextView.setText(Integer.toString(currentProduct.getQuantity()));
+        TextView tvProductName = (TextView) listItemView.findViewById(R.id.list_product_name);
+        tvProductName.setText(currentProduct.getName());
 
-        TextView priceTextView =(TextView) listItemView.findViewById(R.id.PriceOfProduct);
-        String priceTag = "$" + currentProduct.getPrice();
-        priceTextView.setText(priceTag);
+        final TextView tvInStock = (TextView) listItemView.findViewById(R.id.list_product_stock);
+        tvInStock.setText(Integer.toString(currentProduct.getStock()));
 
-        final TextView soldTextView = (TextView) listItemView.findViewById(R.id.AmountOfSale);
-        String soldString = "Sold:"+ currentProduct.getSold();
-        soldTextView.setText(soldString);
+        TextView tvProductPrice = (TextView) listItemView.findViewById(R.id.list_product_price);
+        tvProductPrice.setText("$" + Float.toString(currentProduct.getPrice()));
 
-        Button makeSale = (Button) listItemView.findViewById(R.id.SaleButton);
-        makeSale.setOnClickListener(new View.OnClickListener() {
+        final TextView tvProductSold = (TextView) listItemView.findViewById(R.id.list_product_sold);
+        tvProductSold.setText(Integer.toString(currentProduct.getSales()));
+
+        btnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newJosh = currentProduct.getQuantity() - 1;
-                if(!(newJosh < 0)){
-                    int newRocks = currentProduct.getSold() + 1;
-                    Utility.verifyStoragePermissions(InventoryContract.ProductEntry.COLUMN_NAME_QUANTITY,
-                            Integer.toString(newJosh),
-                            currentProduct.getProductName(),
-                            getContext());
-                    Utility.verifyStoragePermissions(InventoryContract.ProductEntry.COLUMN_NAME_SOLD,
-                            Integer.toString(newRocks),
-                            currentProduct.getProductName(),
-                            getContext());
-                    currentProduct.setQuantity(newJosh);
-                    currentProduct.setSold(newRocks);
+                int stock = Integer.parseInt(tvInStock.getText().toString());
+                int sold = Integer.parseInt(tvProductSold.getText().toString());
 
-                    String soldString = "Sold:"+ currentProduct.getSold();
-                    soldTextView.setText(soldString);
-
-                    quantityTextView.setText(Integer.toString(currentProduct.getQuantity()));
+                if (stock > 0) {
+                    stock--;
+                    Log.d("btnSell stock: ", String.valueOf(stock));
+                    sold++;
+                    Log.d("btnSell sales: ", String.valueOf(sold));
+                    currentProduct.setSales(sold);
+                    currentProduct.setStock(stock);
+                    tvInStock.setText(Integer.toString(stock));
+                    tvProductSold.setText(Integer.toString(sold));
+                    db.updateProduct(currentProduct);
                 }
+
             }
         });
 
         return listItemView;
     }
+
 }
+

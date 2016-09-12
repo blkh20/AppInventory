@@ -8,4 +8,87 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Activity Main styles -->
+    <style name="add_item_text">
+        <item name="android:layout_height">@dimen/act_main_add_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">@dimen/activity_default_padding</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="add_item_btn">
+        <item name="android:layout_height">@dimen/act_main_add_height</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/activity_default_padding</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- List item Layout Style -->
+    <style name="list_layout">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_toRightOf">@id/thumb_and_btn</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingLeft">@dimen/activity_default_padding</item>
+        <item name="android:paddingRight">@dimen/activity_default_padding</item>
+
+    </style>
+
+    <!-- List item TextView Label style -->
+    <style name="list_text_label">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingTop">@dimen/activity_default_padding</item>
+        <item name="android:paddingBottom">@dimen/activity_default_padding</item>
+    </style>
+
+    <!-- List item TextView style -->
+    <style name="list_text_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:paddingTop">@dimen/activity_default_padding</item>
+        <item name="android:paddingBottom">@dimen/activity_default_padding</item>
+    </style>
+
+    <!-- Add Product EditTextView style -->
+    <style name="add_product_edit_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingBottom">@dimen/activity_default_padding</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <!-- Add Product TextView style -->
+    <style name="add_product_text_view">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">@dimen/activity_default_padding</item>
+    </style>
+
+    <!-- Add Product ImageView style -->
+    <style name="add_product_image_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">@dimen/activity_default_padding</item>
+    </style>
+
 </resources>
