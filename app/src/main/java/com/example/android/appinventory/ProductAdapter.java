@@ -1,4 +1,4 @@
-package com.example.android.appinventory.Product;
+package com.example.android.appinventory;
 
 import android.app.Activity;
 import android.util.Log;
@@ -9,12 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.android.appinventory.Data.ProductDbHandler;
-import com.example.android.appinventory.R;
-
 import java.util.ArrayList;
 
-public class ProductAdapter extends ArrayAdapter<com.example.android.appinventory.Product.Product> {
+public class ProductAdapter extends ArrayAdapter<com.example.android.appinventory.Product> {
     ArrayList<Product> Product = new ArrayList<>();
     public ProductAdapter(Activity context, ArrayList<Product> products) {
         super(context, 0, products);

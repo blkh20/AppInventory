@@ -1,4 +1,4 @@
-package com.example.android.appinventory.Product;
+package com.example.android.appinventory;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
-
-import com.example.android.appinventory.Data.ProductDbHandler;
-import com.example.android.appinventory.Data.ProductValidator;
-import com.example.android.appinventory.R;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

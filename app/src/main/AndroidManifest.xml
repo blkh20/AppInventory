@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Product.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,31 +16,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Data.ListItem"
+            android:name=".ListItem"
             android:configChanges="orientation|screenSize" />
 
         <activity
-            android:name=".Product.AddProduct"
+            android:name=".AddProduct"
             android:configChanges="orientation|screenSize"
             android:label="@string/add_product_title"
-            android:parentActivityName=".Product.MainActivity">
+            android:parentActivityName=".MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Product.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".Product.ProductDetails"
+        <activity android:name=".ProductDetails"
             android:configChanges="orientation|screenSize"
             android:label="@string/product_detail_title"
-            android:parentActivityName=".Product.MainActivity"
+            android:parentActivityName=".MainActivity"
             >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Product.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
     </application>
 

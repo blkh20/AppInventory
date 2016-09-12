@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:padding="@dimen/activity_default_padding"
-    tools:context=".Product.ProductDetails"
+    tools:context=".ProductDetails"
     android:weightSum="1"
     android:fillViewport="true">
 

@@ -1,4 +1,4 @@
-package com.example.android.appinventory.Product;
+package com.example.android.appinventory;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.example.android.appinventory.Data;
+package com.example.android.appinventory;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.appinventory.Product.Product;
+import com.example.android.appinventory.Product;
+import com.example.android.appinventory.ProductContract;
 
 import java.util.ArrayList;
 import java.util.List;

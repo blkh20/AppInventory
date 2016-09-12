@@ -1,4 +1,4 @@
-package com.example.android.appinventory.Product;
+package com.example.android.appinventory;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,10 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.android.appinventory.Data.ProductDbHandler;
-import com.example.android.appinventory.Data.ProductValidator;
-import com.example.android.appinventory.R;
 
 import java.io.IOException;
 
