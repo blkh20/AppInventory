@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.example.android.appinventory.Data.ProductDbHandler;
-import com.example.android.product_inventory.R;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

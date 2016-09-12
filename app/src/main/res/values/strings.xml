@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Product Inventory</string>
+    <string name="app_name">AppInventory</string>
     <string name="add_product_title">Add Product</string>
     <string name="product_detail_title">Product</string>
     <string name="add">Add Item</string>
-    <string name="no_item">Tap ADD ITEM to start</string>
+    <string name="no_item">Click Button to Add Item</string>
     <string name="product_name">Item: </string>
     <string name="product_stock">In Stock: </string>
     <string name="product_price">Price: </string>

@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.appinventory.Data.ProductDbHandler;
-import com.example.android.product_inventory.R;
 
 import java.io.IOException;
 

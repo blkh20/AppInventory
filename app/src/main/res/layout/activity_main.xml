@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_default_padding"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorAccent"
     tools:context="com.example.android.appinventory.MainActivity">
 
     <LinearLayout
@@ -19,6 +19,7 @@
             style="@style/add_item_text"
             android:visibility="visible"
             android:id="@+id/no_product"
+            android:textColor="black"
             android:text="@string/no_item" />
 
         <Button
@@ -34,8 +35,8 @@
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
         android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:divider="@color/colorAccent"
+        android:background="@color/colorAccent"
+        android:divider="@color/colorPrimary"
         android:dividerHeight="1dp"
         android:visibility="visible" />
 
