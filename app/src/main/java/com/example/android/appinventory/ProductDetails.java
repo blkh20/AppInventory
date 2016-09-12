@@ -29,6 +29,7 @@ public class ProductDetails extends AppCompatActivity {
     ProductValidator pv = new ProductValidator();
     ProductDbHandler db = new ProductDbHandler(this);
     Product pc;
+
     @Override
     public void setActionBar(Toolbar toolbar) {
         super.setActionBar(toolbar);
@@ -40,6 +41,7 @@ public class ProductDetails extends AppCompatActivity {
         actionBar.setTitle(R.string.product_detail_title);
         actionBar.show();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

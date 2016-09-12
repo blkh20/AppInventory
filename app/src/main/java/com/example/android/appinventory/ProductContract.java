@@ -1,34 +1,24 @@
 package com.example.android.appinventory;
 
-import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.provider.BaseColumns;
 
 
 
-public abstract class ProductContract extends ContentProvider {
+public class ProductContract {
+
+    // Database Version
     public static final int DATABASE_VERSION = 1;
-    // To prevent someone from accidentally instantiating the contract class,
-    // give it an empty constructor.
-    private ProductContract() {}
-       public static abstract class ProductEntry implements BaseColumns {
-        //Authority of the content provider
-        public static final String CONTENT_AUTHORITY = "com.example.android.appinventory";
-        //Path of the content provider
-        public static final String PATH = "items";
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/"
-                        + CONTENT_AUTHORITY + "/"
-                        + PATH;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/"
-                        + CONTENT_AUTHORITY + "/"
-                        + PATH;
-        public static final String TABLE_NAME = "Products";
-        public static final String COLUMN_NAME_PRODUCT_NAME = "ProductName";
-        public static final String COLUMN_NAME_QUANTITY = "Quantity";
-        public static final String COLUMN_NAME_PRICE = "Price";
-        public static final String COLUMN_NAME_IMAGE = "Image";
-        public static final String COLUMN_NAME_SOLD = "Sold";
+
+    public class ProductEntry implements BaseColumns {
+        // Table name
+        public static final String TABLE_NAME = "inventoryInfo";
+        // Table Columns names
+        public static final String COLUMN_PRODUCT_ID = "productId";
+        public static final String COLUMN_PRODUCT_NAME = "productName";
+        public static final String COLUMN_PRODUCT_IMAGE = "productPic";
+        public static final String COLUMN_PRODUCT_PRICE = "price";
+        public static final String COLUMN_PRODUCT_STOCK = "availableStock";
+        public static final String COLUMN_PRODUCT_SALES = "sales";
+        public static final String COLUMN_SUPPLIER_CONTACT = "supplierContactInfo";
     }
 }

@@ -10,7 +10,9 @@ public class Product implements Serializable {
     private int stock;
     private int sales;
     private String supplier;
-    public Product() {    }
+
+    public Product() {
+    }
 
     public Product(int id, String name, String image, float price, int stock, int sales, String supplier) {
         this.id = id;
@@ -19,7 +21,8 @@ public class Product implements Serializable {
         this.price = price;
         this.stock = stock;
         this.sales = sales;
-        this.supplier = supplier;    }
+        this.supplier = supplier;
+    }
 
     public void setId(int id) {
         this.id = id;

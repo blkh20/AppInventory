@@ -11,19 +11,26 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ProductAdapter extends ArrayAdapter<com.example.android.appinventory.Product> {
-    ArrayList<Product> Product = new ArrayList<>();
+public class ProductAdapter extends ArrayAdapter<Product> {
+
+    ArrayList<Product> products = new ArrayList<>();
+
     public ProductAdapter(Activity context, ArrayList<Product> products) {
         super(context, 0, products);
     }
+
     ProductDbHandler db = new ProductDbHandler(getContext());
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         View listItemView = convertView;
+
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_item_products, parent, false);
         }
+
         final Product currentProduct = getItem(position);
 
         Button btnSell = (Button) listItemView.findViewById(R.id.list_sell_btn);
@@ -57,9 +64,11 @@ public class ProductAdapter extends ArrayAdapter<com.example.android.appinventor
                     tvProductSold.setText(Integer.toString(sold));
                     db.updateProduct(currentProduct);
                 }
+
             }
         });
+
         return listItemView;
     }
-}
 
+}
