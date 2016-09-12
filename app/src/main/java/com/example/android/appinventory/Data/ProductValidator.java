@@ -1,4 +1,4 @@
-package com.example.android.appinventory;
+package com.example.android.appinventory.Data;
 
 import android.widget.EditText;
 

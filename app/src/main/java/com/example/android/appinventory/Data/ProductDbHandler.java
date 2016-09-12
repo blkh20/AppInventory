@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.appinventory.Product;
+import com.example.android.appinventory.Product.Product;
 
 import java.util.ArrayList;
 import java.util.List;

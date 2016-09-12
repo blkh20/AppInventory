@@ -1,4 +1,4 @@
-package com.example.android.appinventory;
+package com.example.android.appinventory.Product;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.appinventory.Data.ProductDbHandler;
+import com.example.android.appinventory.R;
 
 import java.util.ArrayList;
 
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         productInventory.clear();
         productInventory.addAll(db.getAllProducts());
         adapter.notifyDataSetChanged();
+
         if(productInventory != null)
         {
             if(productInventory.size() == 0)
@@ -118,4 +120,5 @@ public class MainActivity extends AppCompatActivity {
             listView.setVisibility(View.GONE);
         }
     }
+
 }
