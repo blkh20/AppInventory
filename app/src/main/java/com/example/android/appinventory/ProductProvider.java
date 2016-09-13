@@ -19,30 +19,30 @@ public class ProductProvider extends ContentProvider {
     // Database Name
     public static final String DATABASE_NAME = "ProductInventory";
 
-    private ProductProvider mHelper = null;
+    ProductProvider mHelper = null;
 
-//    // Holds the database object
-//    private SQLiteDatabase db;
-//
-//    public ProductProvider(Context context, String databaseName, Object o, int i) {
-//    }
-//
-//    public boolean onCreate() {
-//
-//        /*
-//         * Creates a new helper object. This method always returns quickly.
-//         * Notice that the database itself isn't created or opened
-//         * until SQLiteOpenHelper.getWritableDatabase is called
-//         */
-//        mHelper = new ProductProvider(
-//                getContext(),        // the application context
-//                DATABASE_NAME,              // the name of the database)
-//                null,                // uses the default SQLite cursor
-//                1                    // the version number
-//        );
-//
-//        return true;
-//    }
+    // Holds the database object
+    private SQLiteDatabase db;
+
+    public ProductProvider(Context context, String databaseName, Object o, int i) {
+    }
+
+    public boolean onCreate() {
+
+        /*
+         * Creates a new helper object. This method always returns quickly.
+         * Notice that the database itself isn't created or opened
+         * until SQLiteOpenHelper.getWritableDatabase is called
+         */
+        mHelper = new ProductProvider(
+                getContext(),        // the application context
+                DATABASE_NAME,              // the name of the database)
+                null,                // uses the default SQLite cursor
+                1                    // the version number
+        );
+
+        return true;
+    }
 
     // helper constants for use with the UriMatcher
     private static final int ITEM_LIST = 1;
@@ -75,12 +75,6 @@ public class ProductProvider extends ContentProvider {
                 "entities/#",
                 ENTITY_ID);
     }
-
-    @Override
-    public boolean onCreate() {
-        mHelper = new ProductProvider(getContext());
-        return true;
-    }
     @Override
     public String getType(Uri uri) {
         switch (URI_MATCHER.match(uri)) {
@@ -110,7 +104,7 @@ public class ProductProvider extends ContentProvider {
         if (URI_MATCHER.match(uri) == ITEM_LIST) {
             long id =
                     db.insert(
-                            DBSchema.TBL_ITEMS,
+                            ContentValues.TABLE_NAME,
                             null,
                             values);
             return getUriForId(id, uri);
@@ -124,7 +118,7 @@ public class ProductProvider extends ContentProvider {
             // See how I mentioned this in the Contract class.
             long id =
                     db.insertWithOnConflict(
-                            ProductContract.ProductEntry.TBL_PHOTOS,
+                            ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE,
                             null,
                             values,
                             SQLiteDatabase.CONFLICT_REPLACE);
@@ -156,38 +150,38 @@ public class ProductProvider extends ContentProvider {
         boolean useAuthorityUri = false;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
-                builder.setTables(DBSchema.TBL_ITEMS);
+                builder.setTables(ContentValues.COLUMN_PRODUCT_PRICE);
                 if (TextUtils.isEmpty(sortOrder)) {
-                    sortOrder = ProductContract.ProductEntry.SORT_ORDER_DEFAULT;
+                    sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 break;
             case ITEM_ID:
-                builder.setTables(DBSchema.TBL_ITEMS);
+                builder.setTables(ContentValues.TABLE_NAME);
                 // limit query to one row at most:
                 builder.appendWhere(ProductContract.ProductEntry._ID + " = " +
                         uri.getLastPathSegment());
                 break;
             case PHOTO_LIST:
-                builder.setTables(DBSchema.TBL_PHOTOS);
+                builder.setTables(ContentValues.TBL_PHOTOS);
                 break;
             case PHOTO_ID:
-                builder.setTables(DBSchema.TBL_PHOTOS);
+                builder.setTables(ContentValues.TBL_PHOTOS);
                 // limit query to one row at most:
                 builder.appendWhere(ProductContract.ProductEntry._ID +
                         " = " +
                         uri.getLastPathSegment());
                 break;
             case ENTITY_LIST:
-                builder.setTables(DBSchema.LEFT_OUTER_JOIN_STATEMENT);
+                builder.setTables(ContentValues.LEFT_OUTER_JOIN_STATEMENT);
                 if (TextUtils.isEmpty(sortOrder)) {
-                    sortOrder = ProductContract.ProductEntry.SORT_ORDER_DEFAULT;
+                    sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 useAuthorityUri = true;
                 break;
             case ENTITY_ID:
-                builder.setTables(DBSchema.LEFT_OUTER_JOIN_STATEMENT);
+                builder.setTables(ContentValues.LEFT_OUTER_JOIN_STATEMENT);
                 // limit query to one row at most:
-                builder.appendWhere(DBSchema.TBL_ITEMS +
+                builder.appendWhere(ContentValues.TABLE_NAME +
                         "." +
                         ProductContract.ProductEntry._ID +
                         " = " +
@@ -228,7 +222,7 @@ public class ProductProvider extends ContentProvider {
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
                 updateCount = db.update(
-                        DBSchema.TBL_ITEMS,
+                        ContentValues.TABLE_NAME,
                         values,
                         selection,
                         selectionArgs);
@@ -240,7 +234,7 @@ public class ProductProvider extends ContentProvider {
                     where += " AND " + selection;
                 }
                 updateCount = db.update(
-                        DBSchema.TBL_ITEMS,
+                        ContentValues.TABLE_NAME,
                         values,
                         where,
                         selectionArgs);
@@ -262,7 +256,7 @@ public class ProductProvider extends ContentProvider {
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
                 delCount = db.delete(
-                        DBSchema.TBL_ITEMS,
+                        ContentValues.TABLE_NAME,
                         selection,
                         selectionArgs);
                 break;
@@ -273,7 +267,7 @@ public class ProductProvider extends ContentProvider {
                     where += " AND " + selection;
                 }
                 delCount = db.delete(
-                        DBSchema.TBL_ITEMS,
+                        ContentValues.TABLE_NAME,
                         where,
                         selectionArgs);
                 break;
