@@ -3,7 +3,6 @@ package com.example.android.appinventory;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -30,26 +29,15 @@ public class ProductProvider extends ContentProvider {
     private static final UriMatcher URI_MATCHER;
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        URI_MATCHER.addURI(ProductContract.AUTHORITY,
-                "items",
-                ITEM_LIST);
-        URI_MATCHER.addURI(ProductContract.AUTHORITY,
-                "items/#",
-                ITEM_ID);
-        URI_MATCHER.addURI(ProductContract.AUTHORITY,
-                "photos",
-                PHOTO_LIST);
-        URI_MATCHER.addURI(ProductContract.AUTHORITY,
-                "photos/#",
-                PHOTO_ID);
-        URI_MATCHER.addURI(ProductContract.AUTHORITY,
-                "entities",
-                ENTITY_LIST);
-        URI_MATCHER.addURI(ProductContract.AUTHORITY,
-                "entities/#",
-                ENTITY_ID);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,"items",ITEM_LIST);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,"items/#",ITEM_ID);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,"photos",PHOTO_LIST);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,"photos/#",PHOTO_ID);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,"entities",ENTITY_LIST);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,"entities/#",ENTITY_ID);
     }
     ProductDbHandler mHelper = null;
+    private final ThreadLocal<Boolean> mIsInBatchMode = new ThreadLocal<Boolean>();
     @Override
     public boolean onCreate() {
         /*
@@ -110,8 +98,6 @@ public class ProductProvider extends ContentProvider {
             return getUriForId(id, uri);
         }
     }
-    private boolean isInBatchMode() {
-    }
     private Uri getUriForId(long id, Uri uri) {
         if (id > 0) {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
@@ -126,46 +112,45 @@ public class ProductProvider extends ContentProvider {
                 "Problem while inserting into uri: " + uri);
     }
     @Override
-    public Cursor query(Uri uri, String[] projection,
-                        String selection, String[] selectionArgs,
+    public Cursor query(Uri uri, String[] projection,String selection, String[] selectionArgs,
                         String sortOrder) {
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(URI_MATCHER);
+       // doAnalytics(uri, "query");
+
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         boolean useAuthorityUri = false;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
-                ContentUris.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME);
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 break;
             case ITEM_ID:
-                ContentUris.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME);
                 // limit query to one row at most:
                 builder.appendWhere(ProductContract.ProductEntry._ID + " = " +
                         uri.getLastPathSegment());
                 break;
             case PHOTO_LIST:
-                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME);
                 break;
             case PHOTO_ID:
-                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME);
                 // limit query to one row at most:
-                ContentUris.appendWhere(ProductContract.ProductEntry._ID +
-                        " = " +
-                        uri.getLastPathSegment());
+                builder.appendWhere(ProductContract.ProductEntry._ID + " = " + uri.getLastPathSegment());
                 break;
             case ENTITY_LIST:
-                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME);
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 useAuthorityUri = true;
                 break;
             case ENTITY_ID:
-                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME);
                 // limit query to one row at most:
-                ContentUris.appendWhere(ProductContract.ProductEntry.TABLE_NAME +
+                builder.appendWhere(ProductContract.ProductEntry.TABLE_NAME +
                         "." +
                         ProductContract.ProductEntry._ID +
                         " = " +
@@ -177,14 +162,8 @@ public class ProductProvider extends ContentProvider {
                         "Unsupported URI: " + uri);
         }
         Cursor cursor =
-                ContentUris.query(
-                        db,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                builder.query(db, projection, selection, selectionArgs,
+                        null, null, sortOrder);
         // if we want to be notified of any changes:
         if (useAuthorityUri) {
             cursor.setNotificationUri(
@@ -240,7 +219,7 @@ public class ProductProvider extends ContentProvider {
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
                 delCount = db.delete(
-                        ContentUris.TABLE_NAME,
+                        ProductContract.ProductEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
                 break;
@@ -251,7 +230,7 @@ public class ProductProvider extends ContentProvider {
                     where += " AND " + selection;
                 }
                 delCount = db.delete(
-                        ContentUris.TABLE_NAME,
+                        ProductContract.ProductEntry.TABLE_NAME,
                         where,
                         selectionArgs);
                 break;
@@ -265,5 +244,9 @@ public class ProductProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return delCount;
+    }
+
+    private boolean isInBatchMode() {
+        return mIsInBatchMode.get() != null && mIsInBatchMode.get();
     }
 }
