@@ -26,7 +26,8 @@
             style="@style/add_item_btn"
             android:id="@+id/add_item_btn"
             android:textAlignment="center"
-            android:text="@string/add" />
+            android:text="@string/add"
+            android:onClick="addItem"/>
 
     </LinearLayout>
 

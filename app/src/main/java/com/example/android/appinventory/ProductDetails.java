@@ -29,7 +29,6 @@ public class ProductDetails extends AppCompatActivity {
     ProductValidator pv = new ProductValidator();
     ProductDbHandler db = new ProductDbHandler(this);
     Product pc;
-
     @Override
     public void setActionBar(Toolbar toolbar) {
         super.setActionBar(toolbar);
@@ -41,7 +40,6 @@ public class ProductDetails extends AppCompatActivity {
         actionBar.setTitle(R.string.product_detail_title);
         actionBar.show();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +71,6 @@ public class ProductDetails extends AppCompatActivity {
         final Button btnDownQty = (Button) findViewById(R.id.down);
         final EditText editQty = (EditText) findViewById(R.id.detail_edit_qty);
         final TextView editQtyError = (TextView) findViewById(R.id.detail_edit_qty_error);
-
         btnDownQty.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 int qty = Integer.parseInt(editQty.getText().toString());
@@ -90,7 +87,6 @@ public class ProductDetails extends AppCompatActivity {
                 editQty.setText(Integer.toString(qty));
             }
         });
-
         //not saving to db
         btnCancelQty.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -115,24 +111,18 @@ public class ProductDetails extends AppCompatActivity {
             }
         });
         adjQty.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
-
                 tvModQty.setVisibility(View.VISIBLE);
                 adjQty1.setVisibility(View.VISIBLE);
                 adjQty2.setVisibility(View.VISIBLE);
                 editQty.setText(Integer.toString(pc.getStock()));
             }
         });
-
         deleteProd.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
-
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(ProductDetails.this);
                 builder1.setMessage("Are you sure you want to delete?.");
                 builder1.setCancelable(true);
-
                 builder1.setPositiveButton(
                         "Yes",
                         new DialogInterface.OnClickListener() {
@@ -143,7 +133,6 @@ public class ProductDetails extends AppCompatActivity {
                                 finish();
                             }
                         });
-
                 builder1.setNegativeButton(
                         "No",
                         new DialogInterface.OnClickListener() {
@@ -151,37 +140,29 @@ public class ProductDetails extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
-
-
             }
         });
-
         order.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{pc.getSupplier()});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "ORDER MORE ITEM");
                 intent.putExtra(Intent.EXTRA_TEXT, "Product ID: " + pc.getId() + "\n" + "Product name: " + pc.getName());
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
-
             }
         });
     }
-
     private void setVisToHide(LinearLayout lv1, LinearLayout lv2, TextView tv, TextView editQtyError) {
         lv1.setVisibility(View.GONE);
         lv2.setVisibility(View.GONE);
         tv.setVisibility(View.GONE);
         editQtyError.setVisibility(View.GONE);
     }
-
     private Bitmap getBitmapFromUri(Uri uri) {
         ParcelFileDescriptor parcelFileDescriptor = null;
         try {
@@ -205,8 +186,6 @@ public class ProductDetails extends AppCompatActivity {
             }
         }
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
