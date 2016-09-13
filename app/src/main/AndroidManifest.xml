@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.appinventory">
+    <provider
+        android:name="com.example.android.appinventory.ProductProvider"
+        android:authorities="com.example.android.appinventory"
+        android:exported="true"
+        android:grantUriPermissions="true"
+        android:label="LentItemsProvider"
+        android:readPermission="com.example.android.appinventory.READ"
+        android:writePermission="com.example.android.appinventory.WRITE" />
 
     <application
         android:allowBackup="true"

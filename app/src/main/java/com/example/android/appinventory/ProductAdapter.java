@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
 
-    ArrayList<Product> products = new ArrayList<>();
+    ArrayList<Product> Product = new ArrayList<>();
 
     public ProductAdapter(Activity context, ArrayList<Product> products) {
         super(context, 0, products);

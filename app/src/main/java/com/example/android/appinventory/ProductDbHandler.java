@@ -2,17 +2,47 @@ package com.example.android.appinventory;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDbHandler extends SQLiteOpenHelper {
     private Context mContext;
+    // helper constants for use with the UriMatcher
+    private static final int ITEM_LIST = 1;
+    private static final int ITEM_ID = 2;
+    private static final int PHOTO_LIST = 5;
+    private static final int PHOTO_ID = 6;
+    private static final int ENTITY_LIST = 10;
+    private static final int ENTITY_ID = 11;
+    private static final UriMatcher URI_MATCHER;
+
+    // prepare the UriMatcher
+    static {
+        URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,
+                "items",
+                ITEM_LIST);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,
+                "items/#",
+                ITEM_ID);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,
+                "photos",
+                PHOTO_LIST);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,
+                "photos/#",
+                PHOTO_ID);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,
+                "entities",
+                ENTITY_LIST);
+        URI_MATCHER.addURI(ProductContract.AUTHORITY,
+                "entities/#",
+                ENTITY_ID);
+    }
     // Database Name
     public static final String DATABASE_NAME = "ProductInventory";
 
