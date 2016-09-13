@@ -18,32 +18,6 @@ import android.text.TextUtils;
 public class ProductProvider extends ContentProvider {
     // Database Name
     public static final String DATABASE_NAME = "ProductInventory";
-
-    ProductProvider mHelper = null;
-
-    // Holds the database object
-    private SQLiteDatabase db;
-
-    public ProductProvider(Context context, String databaseName, Object o, int i) {
-    }
-
-    public boolean onCreate() {
-
-        /*
-         * Creates a new helper object. This method always returns quickly.
-         * Notice that the database itself isn't created or opened
-         * until SQLiteOpenHelper.getWritableDatabase is called
-         */
-        mHelper = new ProductProvider(
-                getContext(),        // the application context
-                DATABASE_NAME,              // the name of the database)
-                null,                // uses the default SQLite cursor
-                1                    // the version number
-        );
-
-        return true;
-    }
-
     // helper constants for use with the UriMatcher
     private static final int ITEM_LIST = 1;
     private static final int ITEM_ID = 2;
@@ -52,8 +26,6 @@ public class ProductProvider extends ContentProvider {
     private static final int ENTITY_LIST = 10;
     private static final int ENTITY_ID = 11;
     private static final UriMatcher URI_MATCHER;
-
-    // prepare the UriMatcher
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         URI_MATCHER.addURI(ProductContract.AUTHORITY,
@@ -74,6 +46,26 @@ public class ProductProvider extends ContentProvider {
         URI_MATCHER.addURI(ProductContract.AUTHORITY,
                 "entities/#",
                 ENTITY_ID);
+    }
+    ProductProvider mHelper = null;
+    public ProductProvider(Context context, String databaseName, Object o, int i) {
+    }
+
+    public boolean onCreate() {
+
+        /*
+         * Creates a new helper object. This method always returns quickly.
+         * Notice that the database itself isn't created or opened
+         * until SQLiteOpenHelper.getWritableDatabase is called
+         */
+        mHelper = new ProductProvider(
+                getContext(),        // the application context
+                DATABASE_NAME,              // the name of the database)
+                null,                // uses the default SQLite cursor
+                1                    // the version number
+        );
+
+        return true;
     }
     @Override
     public String getType(Uri uri) {
@@ -100,11 +92,11 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException(
                     "Unsupported URI for insertion: " + uri);
         }
-        SQLiteDatabase db = mHelper.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         if (URI_MATCHER.match(uri) == ITEM_LIST) {
             long id =
                     db.insert(
-                            ContentValues.TABLE_NAME,
+                            ProductContract.ProductEntry.TABLE_NAME,
                             null,
                             values);
             return getUriForId(id, uri);
@@ -125,7 +117,6 @@ public class ProductProvider extends ContentProvider {
             return getUriForId(id, uri);
         }
     }
-
     private Uri getUriForId(long id, Uri uri) {
         if (id > 0) {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
@@ -145,43 +136,43 @@ public class ProductProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection,
                         String selection, String[] selectionArgs,
                         String sortOrder) {
-        SQLiteDatabase db = mHelper.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         boolean useAuthorityUri = false;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
-                builder.setTables(ContentValues.COLUMN_PRODUCT_PRICE);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 break;
             case ITEM_ID:
-                builder.setTables(ContentValues.TABLE_NAME);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 // limit query to one row at most:
                 builder.appendWhere(ProductContract.ProductEntry._ID + " = " +
                         uri.getLastPathSegment());
                 break;
             case PHOTO_LIST:
-                builder.setTables(ContentValues.TBL_PHOTOS);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 break;
             case PHOTO_ID:
-                builder.setTables(ContentValues.TBL_PHOTOS);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 // limit query to one row at most:
                 builder.appendWhere(ProductContract.ProductEntry._ID +
                         " = " +
                         uri.getLastPathSegment());
                 break;
             case ENTITY_LIST:
-                builder.setTables(ContentValues.LEFT_OUTER_JOIN_STATEMENT);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 useAuthorityUri = true;
                 break;
             case ENTITY_ID:
-                builder.setTables(ContentValues.LEFT_OUTER_JOIN_STATEMENT);
+                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 // limit query to one row at most:
-                builder.appendWhere(ContentValues.TABLE_NAME +
+                builder.appendWhere(ProductContract.ProductEntry.TABLE_NAME +
                         "." +
                         ProductContract.ProductEntry._ID +
                         " = " +
@@ -217,12 +208,12 @@ public class ProductProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        SQLiteDatabase db = mHelper.getWritableDatabase();
-        int updateCount = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        int updateCount;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
                 updateCount = db.update(
-                        ContentValues.TABLE_NAME,
+                        ProductContract.ProductEntry.TABLE_NAME,
                         values,
                         selection,
                         selectionArgs);
@@ -234,7 +225,7 @@ public class ProductProvider extends ContentProvider {
                     where += " AND " + selection;
                 }
                 updateCount = db.update(
-                        ContentValues.TABLE_NAME,
+                        ProductContract.ProductEntry.TABLE_NAME,
                         values,
                         where,
                         selectionArgs);
@@ -281,5 +272,9 @@ public class ProductProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return delCount;
+    }
+
+    public boolean isInBatchMode() {
+        return inBatchMode;
     }
 }
