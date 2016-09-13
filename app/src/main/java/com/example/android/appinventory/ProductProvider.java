@@ -16,6 +16,7 @@ import android.text.TextUtils;
  * Created by BlkH20 on 9/12/2016.
  */
 public class ProductProvider extends ContentProvider {
+    private SQLiteDatabase db;
     // Database Name
     public static final String DATABASE_NAME = "ProductInventory";
     // helper constants for use with the UriMatcher
@@ -92,7 +93,7 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException(
                     "Unsupported URI for insertion: " + uri);
         }
-        SQLiteDatabase db = this.getWritableDatabase();
+        getContext().getContentResolver().notifyChange(uri, null);
         if (URI_MATCHER.match(uri) == ITEM_LIST) {
             long id =
                     db.insert(
@@ -122,9 +123,7 @@ public class ProductProvider extends ContentProvider {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
             if (!isInBatchMode()) {
                 // notify all listeners of changes:
-                getContext().
-                        getContentResolver().
-                        notifyChange(itemUri, null);
+                getContext().getContentResolver().notifyChange(itemUri, null);
             }
             return itemUri;
         }
@@ -136,8 +135,8 @@ public class ProductProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection,
                         String selection, String[] selectionArgs,
                         String sortOrder) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables(TABLE_NAME);
         boolean useAuthorityUri = false;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
