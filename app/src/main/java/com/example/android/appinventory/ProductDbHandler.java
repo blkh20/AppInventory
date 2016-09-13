@@ -176,13 +176,13 @@ public class ProductDbHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Delete all products
-    public void deleteAll() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(ProductContract.ProductEntry.TABLE_NAME, null, null);
-        db.execSQL("delete  from " + ProductContract.ProductEntry.TABLE_NAME);
-        db.close();
-    }
+//    //Delete all products
+//    public void deleteAll() {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        db.delete(ProductContract.ProductEntry.TABLE_NAME, null, null);
+//        db.execSQL("delete  from " + ProductContract.ProductEntry.TABLE_NAME);
+//        db.close();
+//    }
 
     //Delete the database file
     public void deleteDatabase() {
