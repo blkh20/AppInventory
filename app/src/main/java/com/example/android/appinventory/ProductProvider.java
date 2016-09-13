@@ -16,6 +16,7 @@ import android.text.TextUtils;
  * Created by BlkH20 on 9/12/2016.
  */
 public class ProductProvider extends ContentProvider {
+
     private SQLiteDatabase db;
     // Database Name
     public static final String DATABASE_NAME = "ProductInventory";
@@ -48,24 +49,15 @@ public class ProductProvider extends ContentProvider {
                 "entities/#",
                 ENTITY_ID);
     }
-    ProductProvider mHelper = null;
-    public ProductProvider(Context context, String databaseName, Object o, int i) {
-    }
-
+    ProductDbHandler mHelper = null;
+    @Override
     public boolean onCreate() {
-
         /*
          * Creates a new helper object. This method always returns quickly.
          * Notice that the database itself isn't created or opened
          * until SQLiteOpenHelper.getWritableDatabase is called
          */
-        mHelper = new ProductProvider(
-                getContext(),        // the application context
-                DATABASE_NAME,              // the name of the database)
-                null,                // uses the default SQLite cursor
-                1                    // the version number
-        );
-
+        mHelper = new ProductDbHandler(getContext());
         return true;
     }
     @Override
@@ -118,6 +110,8 @@ public class ProductProvider extends ContentProvider {
             return getUriForId(id, uri);
         }
     }
+    private boolean isInBatchMode() {
+    }
     private Uri getUriForId(long id, Uri uri) {
         if (id > 0) {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
@@ -136,42 +130,42 @@ public class ProductProvider extends ContentProvider {
                         String selection, String[] selectionArgs,
                         String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(TABLE_NAME);
+        qb.setTables(URI_MATCHER);
         boolean useAuthorityUri = false;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
-                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                ContentUris.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 break;
             case ITEM_ID:
-                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                ContentUris.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 // limit query to one row at most:
                 builder.appendWhere(ProductContract.ProductEntry._ID + " = " +
                         uri.getLastPathSegment());
                 break;
             case PHOTO_LIST:
-                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 break;
             case PHOTO_ID:
-                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 // limit query to one row at most:
-                builder.appendWhere(ProductContract.ProductEntry._ID +
+                ContentUris.appendWhere(ProductContract.ProductEntry._ID +
                         " = " +
                         uri.getLastPathSegment());
                 break;
             case ENTITY_LIST:
-                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 if (TextUtils.isEmpty(sortOrder)) {
                     sortOrder = ProductContract.ProductEntry.COLUMN_PRODUCT_ID;
                 }
                 useAuthorityUri = true;
                 break;
             case ENTITY_ID:
-                builder.setTables(ProductContract.ProductEntry.TABLE_NAME,);
+                ContentValues.setTables(ProductContract.ProductEntry.TABLE_NAME,);
                 // limit query to one row at most:
-                builder.appendWhere(ProductContract.ProductEntry.TABLE_NAME +
+                ContentUris.appendWhere(ProductContract.ProductEntry.TABLE_NAME +
                         "." +
                         ProductContract.ProductEntry._ID +
                         " = " +
@@ -183,7 +177,7 @@ public class ProductProvider extends ContentProvider {
                         "Unsupported URI: " + uri);
         }
         Cursor cursor =
-                builder.query(
+                ContentUris.query(
                         db,
                         projection,
                         selection,
@@ -207,7 +201,7 @@ public class ProductProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         int updateCount;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
@@ -242,11 +236,11 @@ public class ProductProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        int delCount = 0;
+        int delCount;
         switch (URI_MATCHER.match(uri)) {
             case ITEM_LIST:
                 delCount = db.delete(
-                        ContentValues.TABLE_NAME,
+                        ContentUris.TABLE_NAME,
                         selection,
                         selectionArgs);
                 break;
@@ -257,7 +251,7 @@ public class ProductProvider extends ContentProvider {
                     where += " AND " + selection;
                 }
                 delCount = db.delete(
-                        ContentValues.TABLE_NAME,
+                        ContentUris.TABLE_NAME,
                         where,
                         selectionArgs);
                 break;
@@ -271,9 +265,5 @@ public class ProductProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return delCount;
-    }
-
-    public boolean isInBatchMode() {
-        return inBatchMode;
     }
 }

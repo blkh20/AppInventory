@@ -41,7 +41,7 @@ public final class ProductContract {
 //     */
 //    public static final String CONTENT_ITEM_TYPE =
 //            ContentResolver.CURSOR_ITEM_BASE_TYPE +
-//                    "/vnd.de.openminds.lentitems_items";
+//                    "com.example.android.AppInventory.ProductProvider";
 //    /**
 //     * A projection of all columns
 //     * in the items table.
